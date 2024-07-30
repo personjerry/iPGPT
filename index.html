@@ -1,112 +1,52 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>iPG</title>
-<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" />
-<link rel="stylesheet" type="text/css" href="style.css" />
-
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
-<script type="text/javascript" src="data.js"></script>
-<script type="text/javascript" src="functions.js"></script>
-<script type="text/javascript">
-var timer = 15;
-
-
-// Randomise Questions & Tips
-q.sort(function() {return 0.5 - Math.random()})
-tips.sort(function() {return 0.5 - Math.random()})
-
-
-// End Questions
-q.push('done');
-
-
-$(document).ready(function(){
-	next_q();
-	timer_tick();
-	display_tip();
-});
-
-
-
-$(document).keypress(function(e) {
-
-	switch (e.which)
-	{
-		case 13:
-			// Next Question - Return (13)
-			next_q();
-			break;
-
-		case 32:
-			// Restart Timer - Space (32)
-			timer_restart();
-			break;
-
-		case 110:
-			// Doesn't Do Anything, Move Along
-			$('body').append('<div class="egg"><iframe width="420" height="315" src="http://www.youtube.com/embed/QH2-TGUlwu4?autoplay=1" frameborder="0" allowfullscreen></iframe></div>');
-			break;
-
-	}
-});
-</script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPGPT - YC Interview Simulator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="end" class="hide">
+        <h1>You have reached the end of questions</h1>
+        <h2>Hopefully you will be a little more ready for your YC interview, good luck! :)</h2>
+        <p>Why not check out <a href="https://www.getthinker.com">Thinker</a>, it's a dashboard for your family's emotional well-being.</p>
+    </div>
 
-<!-- Message to be Displayed when out of questions -->
-<div id="end" class="hide">
-	<h1>You have reached the end of questions</h1>
-	<h2>Hopefully you will be a little more ready for your YC interview, good luck! :)</h2>
+    <div id="question"></div>
+    <div id="timer">Timer</div>
+    <canvas id="visualizer" width="640" height="100"></canvas>
+    
+    <div id="processing" class="hide">
+        <div class="spinner"></div>
+        <p>Processing your response...</p>
+    </div>
 
-	<p>Why not check out <a href="http://goscale.com/">GoScale</a>, it&#39;s cloud computing that scales in milliseconds.</p>
-</div>
+    <div id="openai" hidden>
+        <div id="response" class="hide">
+            <h2>Your Response:</h2>
+            <p id="transcription-text"></p>
+        </div>
 
+        <div id="feedback" class="hide">
+            <h2>Paul Graham's Feedback:</h2>
+            <p id="feedback-text"></p>
+        </div>
+    </div>
 
-<!-- Question Display --->
-<div id="question">
-	&nbsp;
-</div>
+    <div class="controls">
+        <h1>Key Controls</h1>
+        <div class="key key-return">return</div>
+        <div class="act">to end round / start next round</div>
+    </div>
 
+    <div class="footer">
+        Originally by James Cunningham and Colin Hayhurst.<br />
+        Update by <a href="https://jerry.wtf/">Jerry Liu</a> for <a href="https://www.getthinker.com/">Thinker</a>
+    </div>
 
-<!-- Timer -->
-<div id="timer">
-	Timer
-</div>
-
-
-<!-- Dissapointed Paul Graham -->
-<div class="pg hide">
-	<img src="pg.jpg" width="400" height="300" />
-</div>
-
-
-<!-- Tips Display -->
-<div class="tip">
-	<strong>ProTip:</strong> <span id="tip">&nbsp;</span>
-</div>
-
-
-<!-- Keyboard Control Reference -->
-<div class="controls">
-	<h1>Key Controls</h1>
-
-	<div class="key key-space">space</div>
-	<div class="act">to restart timer</div>
-
-	<div class="key key-return">return</div>
-	<div class="act">to next question</div>
-</div>
-
-
-<!-- Footer -->
-<div class="footer">
-	Built by
-	<a href="https://jamescun.com/">James Cunningham</a> and
-	<a href="https://bio.link/colinhayhurst">Colin Hayhurst</a> for
-	<a href="https://goscale.com/">GoScale</a>&#39;s YC S12 Interview
-</div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="data.js"></script>
+    <script src="functions.js"></script>
 </body>
 </html>
